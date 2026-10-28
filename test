@@ -1,0 +1,70 @@
+"""Render the supplied example, or pass docs/model_results.json as argument.
+Usage: python improve_chart.py [docs/model_results.json]
+Requires matplotlib and numpy. Does not modify notebook or dashboard files.
+"""
+import json
+import sys
+from pathlib import Path
+import numpy as np
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib.ticker import StrMethodFormatter, MaxNLocator
+
+if len(sys.argv)>1:
+    data=json.loads(Path(sys.argv[1]).read_text())
+    valuation=data['valuation']; targets=np.asarray(data['analyst_targets'],dtype=float)
+else:
+    # Example values transcribed from the supplied chart; use JSON for authoritative inputs.
+    valuation={'Current market':96.,'Comparable companies':101.,'Student DCF':106.,'Analyst median':101.}
+    targets=np.array([82,88,91,94,96,98,100,101,103,105,108,110,114,118,126],dtype=float)
+spot=float(valuation['Current market'])
+mean=float(targets.mean()); median=float(np.median(targets))
+valuation=dict(valuation); valuation['Analyst median']=median
+navy='#17324D'; teal='#008C86'; gold='#B77400'; gray='#64748B'; grid='#E1E7ED'
+plt.rcParams.update({'font.family':'DejaVu Sans','font.size':11,'text.color':navy,'axes.labelcolor':gray,'xtick.color':gray,'ytick.color':navy})
+fig,(ax,dist)=plt.subplots(1,2,figsize=(15,6.2),gridspec_kw={'width_ratios':[1.05,1]})
+fig.patch.set_facecolor('#F7F9FC')
+fig.subplots_adjust(left=.17,right=.96,top=.70,bottom=.21,wspace=.37)
+fig.text(.04,.92,'Equity valuation & analyst expectations',fontsize=23,weight='bold')
+fig.text(.04,.855,'Compare valuation estimates with the current share price, then inspect the spread of analyst targets.',fontsize=11,color=gray)
+for a in (ax,dist):
+    a.set_facecolor('#F7F9FC'); a.set_axisbelow(True)
+    a.grid(axis='x',color=grid,linewidth=1)
+    for spine in a.spines.values():spine.set_visible(False)
+    a.tick_params(axis='both',length=0,pad=9)
+    a.xaxis.set_major_formatter(StrMethodFormatter('${x:,.0f}'))
+ax.set_title('Valuation estimates',loc='left',fontsize=15,weight='bold',pad=24)
+labels=list(valuation); vals=list(valuation.values()); colors=[gray,gold,'#276D94',teal]
+lo=min(vals+[spot]); hi=max(vals+[spot]); span=max(hi-lo,spot*.1,1)
+ax.set_xlim(lo-span*.4,hi+span*.85); ax.set_ylim(-.65,len(vals)-.35); ax.invert_yaxis()
+ax.axvline(spot,color=gray,ls=(0,(2,3)),lw=1.5,zorder=1)
+for y,(v,c) in enumerate(zip(vals,colors)):
+    ax.plot([spot,v],[y,y],color=c,lw=3,alpha=.7,zorder=2)
+    ax.scatter(v,y,s=105,color=c,edgecolor='white',linewidth=1.5,zorder=3)
+    delta=v/spot-1
+    label=f'${v:,.2f}'+('  |  Market' if y==0 else f'  |  {delta:+.1%}')
+    ax.annotate(label,(v,y),xytext=(11,0),textcoords='offset points',va='center',fontsize=10,weight='bold',color=c)
+ax.set_yticks(range(len(labels)),labels)
+ax.xaxis.set_major_locator(MaxNLocator(nbins=5, integer=True))
+ax.set_xlabel('Value per share · focused scale',labelpad=16)
+# Stack repeated targets vertically so no observation is hidden.
+seen={}; ys=[]
+for v in targets:
+    n=seen.get(v,0); seen[v]=n+1; ys.append(.40+n*.065)
+dist.set_title('Analyst target distribution',loc='left',fontsize=15,weight='bold',pad=24)
+pad=max(float(np.ptp(targets))*.08,1)
+dist.set_xlim(targets.min()-pad,targets.max()+pad); dist.set_ylim(0,max(.95,max(ys)+.3))
+dist.axvline(spot,color=gray,ls=(0,(2,3)),lw=1.4,ymin=.14,ymax=.72)
+dist.axvline(mean,color=navy,lw=1.8,ymin=.14,ymax=.72)
+dist.axvline(median,color=gold,ls=(0,(5,3)),lw=1.8,ymin=.14,ymax=.72)
+dist.scatter(targets,ys,s=75,color=teal,edgecolor='white',linewidth=1.2,zorder=4)
+dist.annotate(f'Median ${median:,.2f}',(median,.70),xytext=(-13,9),textcoords='offset points',ha='right',color=gold,weight='bold',fontsize=10)
+dist.annotate(f'Mean ${mean:,.2f}',(mean,.70),xytext=(13,9),textcoords='offset points',ha='left',color=navy,weight='bold',fontsize=10)
+dist.text(spot,.095,f'Market ${spot:,.2f}',ha='center',color=gray,fontsize=9)
+dist.set_yticks([]); dist.set_xlabel('12-month target per share',labelpad=16)
+dist.text(0,-.29,f'{len(targets)} targets  •  Range ${targets.min():,.0f}–${targets.max():,.0f}  •  Sample SD ${targets.std(ddof=1):,.2f}',transform=dist.transAxes,fontsize=10,color=gray)
+fig.text(.04,.055,'Dotted lines mark the current market price. Percentages show differences from market; analyst targets are estimates, not probabilities.',fontsize=9,color=gray)
+out=Path(__file__).resolve().parent
+for ext in ['png','svg']:fig.savefig(out/f'analyst_target_distribution_improved.{ext}',dpi=200,facecolor=fig.get_facecolor())
+print(f'Mean: {mean:.4f}; median: {median:.2f}; count: {len(targets)}')
