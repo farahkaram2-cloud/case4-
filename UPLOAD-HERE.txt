@@ -1,0 +1,19 @@
+FIX: Replace docs/index.html, NOT the index.html in the main folder.
+
+1. Unzip this package.
+2. In your GitHub case4- repository, click the existing docs folder.
+3. Click Add file > Upload files.
+4. From the downloaded docs folder, upload index.html.
+5. Commit changes.
+6. Under Actions, wait for Execute model and deploy dashboard to finish successfully.
+7. Reload your website with Command + Shift + R.
+
+The top banner must say MODEL RISK LAB · V4.
+
+Alternative: upload the extracted docs folder into the repository root, preserving its path. Do not upload the ZIP as a website file.
+
+Verified: your workflow uploads path: docs. Your current notebook writes docs/model_results.json and does not rewrite index.html. No workflow change is required.
+
+The updated HTML embeds baseline model data. Future model_results.json changes do not automatically update that embedded snapshot.
+
+Checks: original price reproduced; call/put and boundary tests passed. DOM-level tests confirmed initial rendering, recalculation and reset with the chart API stubbed. Full visual chart rendering has not been verified in a browser.
