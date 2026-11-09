@@ -1,4 +1,4 @@
-APPLE OPTION PRICER | FIN 450 CASE 4
+APPLE VALUATION-TO-OPTION PRICING LAB | FIN 450 CASE 4
 
 1. Unzip this package. Open index.html locally to preview.
 2. In your case4- GitHub repository, check Settings > Pages for the branch and folder that publish the site.
@@ -9,5 +9,5 @@ APPLE OPTION PRICER | FIN 450 CASE 4
    If the site uses a custom GitHub Actions build, the workflow must publish this index.html in its output.
    This standalone site needs no build, server, or API key.
 
-To verify the example, click Load Slide 12 SPY. The page should show +$4,380.00 and
+To verify the example, open Pricing comparison and click Load Slide 12 SPY. The page should show +$4,380.00 and
 an adjustment to sell or short 60 shares. Use AAPL model returns to the Apple scenario.

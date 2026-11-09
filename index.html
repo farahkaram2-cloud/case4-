@@ -1,25 +1,33 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Apple Option Pricer | FIN 450 Case 4</title>
-<style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Apple | Valuation-to-Option Pricing Lab</title><style>
 :root{color-scheme:light;--ink:#142237;--sub:#4b5b70;--border:#d9e3ed;--accent:#087c70}*{box-sizing:border-box}body{margin:0;background:#f0f4f8;color:var(--ink);font:16px/1.5 system-ui,sans-serif}header{background:#10243a;color:white}header>div,main{max-width:1150px;margin:auto;padding:28px 24px}header p{color:#bdd4df;margin:0}h1{font-size:clamp(2rem,5vw,3.25rem);margin:.15em 0}h2,h3{margin:0 0 10px}p{margin:0 0 12px}a{color:#006f65}section{padding:23px;background:white;border:1px solid var(--border);border-radius:16px;margin-bottom:18px}.layout{display:grid;grid-template-columns:minmax(275px,1fr) minmax(0,1.55fr);gap:18px}.fields,.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}label{display:grid;gap:3px;color:var(--sub);font-size:.86rem}input,select,button{width:100%;padding:8px;border:1px solid #a8bacb;border-radius:7px;background:white;color:var(--ink);font:inherit}button{cursor:pointer;width:auto}button:hover{border-color:var(--accent)}.metric{background:#ecf6f4;padding:12px;border-radius:9px;font-size:.9rem}.metric strong{display:block;font-size:1.4rem;color:#076359}.note,small{color:var(--sub);font-size:.86rem}.topline{display:flex;justify-content:space-between;align-items:start;gap:12px;flex-wrap:wrap}.chart{margin-top:15px}.chart select{width:auto}svg{width:100%;height:auto;display:block}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid var(--border);text-align:left}td:last-child,th:last-child{text-align:right}.results{margin-top:15px}.positive{color:#00665a}.negative{color:#a32332}.error{color:#a32332}details{margin-top:12px}summary{cursor:pointer;font-weight:600}@media(max-width:740px){.layout{grid-template-columns:1fr}header>div,main{padding:20px 14px}section{padding:17px}}[hidden]{display:none!important}
-</style></head>
-<body><header><div><p>FIN 450 · CASE 4 · OPTION GREEKS</p><h1>Apple Option Pricer</h1><p>Price a European option, explore its Greeks, and estimate the impact of a market move.</p></div></header>
+
+:root{--ink:#10243b;--sub:#50667e;--border:#cfdeeb}body{background:#ebf1f5;font-family:Arial,sans-serif}header{background:#102a46 url(data:image/webp;base64,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) center/cover;border-bottom:4px solid #109487}header>div{max-width:none;padding:28px 2.3%;display:flex;align-items:end;justify-content:space-between;gap:20px}header h1{margin:4px 0;font-size:clamp(2rem,4vw,3rem);line-height:1.1}header p{color:#d8e6f2}.kicker{color:#ffd166;font-weight:bold;letter-spacing:.12em;font-size:.82rem}.company{text-align:right;white-space:nowrap}main{max-width:1700px;padding:22px 3%}section{border-radius:16px;box-shadow:0 10px 30px #1534530c}.start{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:16px}.start h2{font-size:1.65rem}.inset,.validation{border:1px solid var(--border);border-radius:12px;padding:14px;background:#f4f7f9}.inset h3{margin-top:12px}.mint{background:#eaf8f6;border-color:#9edbd3}.blue{background:#eaf4fa;border-color:#b2d2e6}#alignment{padding:10px;border-radius:9px;background:#eaf8f4;color:#126c57;font-weight:bold}#tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}#tabs button{border-radius:25px;padding:9px 14px;border-color:var(--border);color:var(--sub)}#tabs button[aria-selected=true],button.primary{background:#0e2947;color:white;border-color:#0e2947}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}.card{padding:16px 18px;background:#fff;border:1px solid var(--tone);border-top:4px solid var(--tone);border-radius:14px}.card b{display:block;font-size:1.95rem;margin:5px 0}.tag{font-size:.75rem;letter-spacing:.07em;text-transform:uppercase;color:var(--sub);font-weight:bold}.split{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px}.split.reverse{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}.validation{margin-top:8px}.plot{width:100%;max-width:1050px;margin:auto}.plot text{fill:var(--ink);font:14px Arial}textarea{width:100%;min-height:80px;padding:8px;border:1px solid #a8bacb;border-radius:7px;font:inherit}label.check{display:flex;align-items:center;gap:8px;padding:10px;background:#f4f7f9;border-radius:8px}.check input{width:auto}.scroll{overflow-x:auto}.state{display:inline-block;border-radius:20px;padding:2px 8px;color:white;font-weight:bold;white-space:nowrap}.controls{margin-top:14px}.controls .fields{grid-template-columns:repeat(4,minmax(0,1fr))}footer{text-align:center;padding:0 15px 20px;color:var(--sub);font-size:.85rem}@media(max-width:760px){header>div{display:block;padding:20px}.company{text-align:left;margin-top:12px}.start,.split,.split.reverse{grid-template-columns:1fr}.cards{gap:6px}.card{padding:9px}.card b{font-size:1.35rem}.controls .fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style></head><body>
+<header><div><div><p class="kicker">STUDENT PORTFOLIO ARTIFACT</p><h1>Valuation-to-Option Pricing Lab</h1><p>From equity beliefs to state-contingent payoffs and no-arbitrage pricing</p></div><div class="company"><strong>Apple Inc. · AAPL</strong><p>Valuation date · Nov 9, 2026</p><p id="modelLine">European call · 200-step CRR</p></div></div></header>
 <main>
-<section><h2>AAPL market snapshot</h2><div class="metrics"><div class="metric">Stock close · Nov 6, 2026<strong>$342.37</strong><a href="https://investor.apple.com/stock-price/default.aspx">Apple Investor Relations</a></div><div class="metric">12-month consensus target · MarketBeat snapshot<strong>$343.74</strong><a href="https://www.marketbeat.com/stocks/NASDAQ/AAPL/FORECAST/">MarketBeat</a> · 0.40% above close</div></div><p class="note" style="margin:10px 0 0">The analyst target is a separate reference. The model uses the editable spot price below. Strike, expiry, volatility, rate, and dividend yield are illustrative assumptions.</p></section>
+<section class="start"><div><h2>Start here</h2><p><b>Central question</b> — How do valuation beliefs translate into option payoffs, and why can a belief-weighted payoff differ from a no-arbitrage option price?</p><div id="alignment"></div></div><article class="inset mint"><div class="tag">Belief-based analysis</div><h3>Analyst scenarios</h3><p>Targets inform five price states. Subjective weights turn their payoffs into a discounted expected payoff.</p></article><article class="inset blue"><div class="tag">No-arbitrage pricing</div><h3>CRR lattice</h3><p>Spot, strike, volatility, rate, dividends, and maturity determine the replication value.</p></article></section>
+<nav id="tabs" role="tablist" aria-label="Lab sections"></nav>
+<div id="panel0" role="tabpanel">
+<div id="equityCards" class="cards"></div>
+<section><h2>Equity valuation evidence</h2><p class="note">Compare the observed close, your independent valuation, and the analyst median. These are equity values per share.</p><div id="equityChart"></div><div class="fields controls"><label>Student DCF per share ($)<input id="dcf" type="number" value="97.20" min=".01" step="any"></label><label>Comparable valuation per share ($)<input id="comp" type="number" placeholder="Enter your comps value" min=".01" step="any"></label></div><p class="note">DCF from the earlier class project. Spot defaults to the Nov 6 close, the preceding trading session. <a href="https://investor.apple.com/stock-price/default.aspx">Apple Investor Relations</a></p></section>
+</div>
+<div id="panel1" role="tabpanel" hidden><div class="split"><section><h2>Analyst target distribution</h2><p class="note" id="distributionNote"></p><div id="analystChart"></div></section><section><h2>What should I notice?</h2><p id="targetSummary"></p><p class="note">Analyst opinions may share assumptions. They do not determine the lattice probabilities.</p><details><summary>View underlying values</summary><p class="note">Nov 9, 2026 aggregate snapshot from <a href="https://stockanalysis.com/stocks/aapl/forecast/">Stock Analysis (S&amp;P Global)</a>. Individual observations are optional below.</p><label>Individual 12-month targets, separated by commas<textarea id="targets" placeholder="Paste your verified targets here"></textarea></label><p class="note" id="targetError" role="status"></p></details></section></div></div>
+<div id="panel2" role="tabpanel" hidden><div class="split reverse"><section><h2>Five-state construction</h2><p id="stateNote" class="note"></p><div class="scroll"><table><thead><tr><th>State</th><th>Price</th><th>Weight</th><th>Payoff</th></tr></thead><tbody id="stateRows"></tbody></table></div></section><section><h2>Payoff-producing states</h2><p id="payoffSummary"></p><div id="payoffChart"></div></section></div></div>
+<div id="panel3" role="tabpanel" hidden><div id="priceCards" class="cards"></div><div class="split"><section><h2>Compare the three values</h2><div id="priceChart"></div><p class="note">Enter a bid and ask from the same option contract and timestamp to display a market midpoint.</p><div class="fields"><label>Market bid ($)<input id="bid" type="number" min="0" step="any"></label><label>Market ask ($)<input id="ask" type="number" min="0" step="any"></label></div></section><section><h2>Model validation</h2><div id="checks"></div></section></div>
 <div class="layout">
-<section><h2>Option inputs</h2><form id="inputs"><div class="fields">
+<section><h2>Option and Greek inputs</h2><form id="inputs"><div class="fields">
 <label>Option type<select id="type"><option value="call">Call</option><option value="put">Put</option></select></label>
 <label>Position<select id="side"><option value="1">Long</option><option value="-1">Short</option></select></label>
 <label>AAPL spot ($)<input id="spot" type="number" min=".01" step="any" value="342.37" required></label>
 <label>Strike ($)<input id="strike" type="number" min=".01" step="any" value="345" required></label>
-<label>Days to expiry<input id="days" type="number" min="1" max="36500" step="1" value="90" required></label>
+<label>Days to expiry<input id="days" type="number" min="1" max="36500" step="1" value="365" required></label>
 <label>Implied volatility (%)<input id="vol" type="number" min=".01" max="1000" step="any" value="28" required></label>
 <label>Risk-free rate (%)<input id="rate" type="number" min="-100" max="100" step="any" value="4" required></label>
 <label>Dividend yield (%)<input id="yield" type="number" min="0" max="100" step="any" value=".3" required></label>
 <label>Contracts<input id="contracts" type="number" min="1" step="1" value="10" required></label>
 <label>Shares per contract<input id="multiplier" type="number" min="1" step="1" value="100" required></label>
 </div></form><p class="note" style="margin-top:12px">Black–Scholes–Merton with continuous dividend yield and a 365-day year. Model values and Greeks are quoted per option share.</p></section>
-<section><h2>Price and Greeks</h2><p id="pricingError" class="error" hidden>Enter valid values for all option inputs.</p><div id="pricingResults"><div class="metrics" id="greeks"></div>
+<section><h2>Black–Scholes price and Greeks</h2><p id="pricingError" class="error" hidden>Enter valid values for all option inputs.</p><div id="pricingResults"><div class="metrics" id="greeks"></div>
 <div class="chart"><div class="topline"><h3>Sensitivity to AAPL price</h3><label>Chart metric<select id="chartMetric"><option value="price">Option price</option><option value="delta">Delta</option><option value="gamma">Gamma</option><option value="vega">Vega</option><option value="theta">Theta</option><option value="rho">Rho</option></select></label></div><svg id="chart" viewBox="0 0 540 230" role="img"></svg></div></div></section>
 </div>
 <section><div class="topline"><div><h2>Build the risk story</h2><p id="scenarioLabel"></p></div><div><button type="button" id="apple">Use AAPL model</button> <button type="button" id="spy">Load Slide 12 SPY</button></div></div>
@@ -30,7 +38,10 @@
 <label>Rate change (percentage points)<input id="rateMove" type="number" step="any" value="0" required></label>
 </div></form><p id="scenarioError" class="error" hidden></p><div id="scenarioResults" class="results"><table><thead><tr><th scope="col">Effect</th><th scope="col">Calculation</th><th scope="col">Per option share</th></tr></thead><tbody id="effects"></tbody></table>
 <div class="metrics" style="margin-top:12px"><div class="metric">Estimated position change before hedge<strong id="pnl"></strong></div><div class="metric">Delta hedge adjustment<strong id="hedge"></strong></div></div><p id="hedgeDetail" style="margin-top:10px"></p><p class="note">This is a local Greek approximation. The revised hedge estimates delta from the stock move and gamma. Volatility and time can also change delta.</p></div></section>
-</main>
+
+</div>
+<div id="panel4" role="tabpanel" hidden><section><div class="topline"><div><h2>Decision memo evidence</h2><p class="note">Use the evidence to explain your conclusion and state a numerical reversal condition.</p></div><button class="primary" type="button" id="copy">Copy evidence summary</button></div><div class="fields"><article class="inset"><h3>Equity valuation</h3><p id="memoEquity"></p></article><article class="inset"><h3>Analyst distribution</h3><p id="memoAnalyst"></p></article><article class="inset"><h3>Option pricing</h3><p id="memoPrice"></p></article><article class="inset"><h3>Model risk and reversal</h3><p>Which assumption drives the gap? State how far volatility or the bull-state weight would have to change to reverse your conclusion.</p></article></div><p id="copyStatus" role="status"></p><textarea id="copyFallback" aria-label="Evidence summary" readonly hidden></textarea></section><section><h2>Submission progress</h2><div class="fields" id="checklist"></div></section></div>
+</main><footer>FIN 450 · Case 4 · Apple Inc. · Valuation-to-Option Pricing Lab</footer>
 <script>
 'use strict';
 const byId = id => document.getElementById(id);
@@ -94,6 +105,7 @@ function draw(a) {
   byId('chart').innerHTML = `<title>${labels[metric]} versus AAPL stock price</title><g font-size="11" fill="#4b5b70">${grid}${ticks}<text x="297" y="221" text-anchor="middle">AAPL stock price</text></g><line x1="${x(30)}" x2="${x(30)}" y1="30" y2="180" stroke="#657b8b" stroke-dasharray="4 4"/><polyline points="${line}" fill="none" stroke="#087c70" stroke-width="3"/><circle cx="${x(30)}" cy="${y(values[30])}" r="4" fill="#087c70"/>`;
 }
 function render() {
+  renderLab();
   const a = inputs(), valid = byId('inputs').checkValidity();
   const m = valid ? model(a) : null;
   const priceReady = m && Object.values(m).every(Number.isFinite) && Number.isFinite(a.size);
@@ -146,5 +158,153 @@ for (const id of ['inputs','shocks']) {
 byId('chartMetric').addEventListener('change',render);
 byId('spy').addEventListener('click',()=>loadScenario(true));
 byId('apple').addEventListener('click',()=>loadScenario(false));
+const tabNames=['Equity beliefs','Analyst evidence','Scenario payoff','Pricing comparison','Interpret & submit'];
+const colors=['#102a46','#17799e','#108b80','#bd810e'];
+const states=['Severe bear','Bear','Base','Bull','Tail'];
+const stateColors=['#b63d42','#cf5619','#a76a03','#088478','#17799e'];
+const weights=[.1,.2,.4,.2,.1];
+const set=(id,content)=>byId(id).textContent=content;
+const quote=x=>Number.isFinite(x)?money.format(x):'—';
+const pct=x=>new Intl.NumberFormat('en-US',{style:'percent',maximumFractionDigits:2}).format(x);
+function selectTab(index,focus=false){
+  tabNames.forEach((_,i)=>{
+    const selected=i===index;
+    byId('panel'+i).hidden=!selected;
+    const tab=byId('tab'+i);
+    tab.tabIndex=selected?0:-1;
+    tab.setAttribute('aria-selected',String(selected));
+  });
+  if(focus) byId('tab'+index).focus();
+}
+byId('tabs').innerHTML=tabNames.map((name,i)=>`<button role="tab" type="button" id="tab${i}" aria-controls="panel${i}">${i+1} ${name}</button>`).join('');
+tabNames.forEach((_,i)=>{
+  const tab=byId('tab'+i);
+  byId('panel'+i).setAttribute('aria-labelledby',tab.id);
+  tab.addEventListener('click',()=>selectTab(i));
+  tab.addEventListener('keydown',e=>{
+    const next={ArrowRight:(i+1)%5,ArrowLeft:(i+4)%5,Home:0,End:4}[e.key];
+    if(next!==undefined){e.preventDefault();selectTab(next,true);}
+  });
+});
+selectTab(0);
+function quantile(xs,p){
+  const index=(xs.length-1)*p, start=Math.floor(index);
+  return xs[start]+(index-start)*(xs[Math.ceil(index)]-xs[start]);
+}
+function analyst(){
+  const raw=byId('targets').value.trim();
+  const xs=raw?raw.split(/[,\n]+/).map(x=>Number(x.trim())).sort((a,b)=>a-b):[];
+  const ok=xs.length>=5&&xs.every(x=>Number.isFinite(x)&&x>0&&x<=1000000);
+  set('targetError',raw&&!ok?'Enter at least five positive targets. Using the published summary in the meantime.':'');
+  if(!ok)return {low:250,high:405,median:350,mean:340.47,n:45,xs:[]};
+  return {low:xs[0],high:xs.at(-1),median:quantile(xs,.5),mean:xs.reduce((a,b)=>a+b,0)/xs.length,n:xs.length,xs};
+}
+function payoff(spot,strike,type){return Math.max(0,type==='call'?spot-strike:strike-spot);}
+function lattice(a,steps,type=a.type){
+  const t=a.days/365, dt=t/steps, logUp=a.vol*Math.sqrt(dt);
+  const up=Math.exp(logUp),down=1/up;
+  const p=(Math.exp((a.rate-a.yield)*dt)-down)/(up-down);
+  if(!(p>=0&&p<=1))return {value:NaN,p};
+  const discount=Math.exp(-a.rate*dt);
+  const nodes=Array.from({length:steps+1},(_,i)=>payoff(a.spot*Math.exp((2*i-steps)*logUp),a.strike,type));
+  for(let n=steps;n>0;n--)for(let i=0;i<n;i++)nodes[i]=discount*((1-p)*nodes[i]+p*nodes[i+1]);
+  return {value:nodes[0],p};
+}
+function cards(id,rows){
+  byId(id).innerHTML=rows.map(([label,value,note,tone])=>`<article class="card" style="--tone:${tone}"><span class="tag">${label}</span><b>${quote(value)}</b><span class="note">${note}</span></article>`).join('');
+}
+function svg(id,title,body,height=260){
+  byId(id).innerHTML=`<svg class="plot" viewBox="0 0 780 ${height}" role="img"><title>${title}</title>${body}</svg>`;
+}
+function bars(id,rows){
+  const max=Math.max(1,...rows.map(r=>Number.isFinite(r[1])?r[1]:0))*1.12;
+  const ticks=Array.from({length:5},(_,i)=>{
+    const x=190+i*132;
+    return `<path d="M${x} 12V210" stroke="#d9e3ec"/><text x="${x}" y="234" text-anchor="middle">${quote(max*i/4)}</text>`;
+  }).join('');
+  svg(id,'Value comparison in dollars',ticks+rows.map(([label,value,color],i)=>{
+    const y=17+i*48,w=Number.isFinite(value)?528*value/max:0;
+    return `<text x="177" y="${y+22}" text-anchor="end">${label}</text><rect x="190" y="${y}" width="${w}" height="34" fill="${color}"><title>${label} ${quote(value)}</title></rect><text x="${197+w}" y="${y+22}">${quote(value)}</text>`;
+  }).join(''),245);
+}
+function analystPlot(a){
+  const width=Math.max(a.high-a.low,1), x=v=>90+600*(v-a.low)/width;
+  const ticks=Array.from({length:6},(_,i)=>{
+    const value=a.low+width*i/5,pos=x(value);
+    return `<path d="M${pos} 28V216" stroke="#d9e3ec"/><text x="${pos}" y="239" text-anchor="middle">${quote(value)}</text>`;
+  }).join('');
+  const frame=`<path d="M${x(a.low)} 105H${x(a.high)} M${x(a.low)} 87V123 M${x(a.high)} 87V123" stroke="#102a46" stroke-width="3"/>`;
+  const box=a.xs.length?`<rect x="${x(quantile(a.xs,.25))}" y="66" width="${x(quantile(a.xs,.75))-x(quantile(a.xs,.25))}" height="78" fill="#afbccd" stroke="#102a46"/>`:'';
+  const points=a.xs.map((value,i)=>`<circle cx="${x(value)}" cy="${165+i%5*9}" r="3.8" fill="#108b80"><title>${quote(value)}</title></circle>`).join('');
+  svg('analystChart',a.xs.length?'Analyst target box plot with full-range whiskers':'Published analyst target range and median',ticks+frame+box+`<path d="M${x(a.median)} 65V145" stroke="#102a46" stroke-width="3"/><text x="${x(a.median)}" y="52" text-anchor="middle">Median ${quote(a.median)}</text>`+points);
+}
+function payoffPlot(prices,a){
+  const low=Math.max(0,Math.min(...prices,a.strike)*.92),high=Math.max(...prices,a.strike)*1.08;
+  const top=Math.max(payoff(low,a.strike,a.type),payoff(high,a.strike,a.type),1)*1.1;
+  const x=s=>68+650*(s-low)/(high-low), y=v=>220-175*v/top;
+  const grids=Array.from({length:6},(_,i)=>{
+    const s=low+(high-low)*i/5,v=top*i/5;
+    return `<path d="M${x(s)} 40V220 M68 ${y(v)}H718" stroke="#d9e3ec"/><text x="${x(s)}" y="242" text-anchor="middle">${quote(s)}</text><text x="63" y="${y(v)+4}" text-anchor="end">${quote(v)}</text>`;
+  }).join('');
+  const line=[low,a.strike,high].map(s=>`${x(s)},${y(payoff(s,a.strike,a.type))}`).join(' ');
+  const points=prices.map((s,i)=>{
+    const v=payoff(s,a.strike,a.type);
+    return `<circle cx="${x(s)}" cy="${y(v)}" r="6" fill="${stateColors[i]}"><title>${states[i]} · ${quote(s)} stock · ${quote(v)} payoff</title></circle>`;
+  }).join('');
+  svg('payoffChart','Option payoff at expiry by AAPL stock price',grids+`<polyline points="${line}" fill="none" stroke="#dc621f" stroke-width="4"/>`+points+'<text x="393" y="268" text-anchor="middle">AAPL price at expiry</text>',282);
+}
+function renderLab(){
+  const a=inputs(), valid=byId('inputs').checkValidity(), t=a.days/365;
+  const analystData=analyst(), {low,high,median,mean,n,xs}=analystData;
+  const spot=valid?a.spot:NaN, dcf=num('dcf')>0?num('dcf'):NaN, comp=num('comp')>0?num('comp'):NaN;
+  const prices=xs.length?[.1,.3,.5,.7,.9].map(p=>quantile(xs,p)):[low,(low+median)/2,median,(median+high)/2,high];
+  const values=prices.map(s=>valid?payoff(s,a.strike,a.type):NaN);
+  const zero=weights.reduce((sum,w,i)=>sum+(values[i]===0?w:0),0);
+  const difference=Math.abs(t-1),aligned=valid&&a.days===365;
+  const belief=aligned?Math.exp(-a.rate*t)*weights.reduce((sum,w,i)=>sum+w*values[i],0):NaN;
+  set('alignment',valid?`${aligned?'✓ Aligned horizons':'⚠ Different horizons'} · Difference ${difference.toFixed(2)} years`:'Enter valid option inputs to check horizons.');
+  set('modelLine',`European ${a.type} · 200-step CRR`);
+  cards('equityCards',[['Current market',spot,'Editable AAPL spot',colors[0]],['Student DCF',dcf,'Independent value per share',colors[1]],['Analyst median',median,`${n} ${xs.length?'entered targets':'analysts in published snapshot'}`,colors[2]]]);
+  bars('equityChart',[['Current market',spot,'#6b7d8d'],['Comparable companies',comp,colors[3]],['Student DCF',dcf,colors[1]],['Analyst median',median,colors[2]]]);
+  set('distributionNote',xs.length?'Box shows the 25th to 75th percentiles. Whiskers span all entered targets.':'Published low, median and high. Add individual targets to display a box plot.');
+  set('targetSummary',`Mean ${quote(mean)}, median ${quote(median)}, range ${quote(low)}–${quote(high)} across ${n} ${xs.length?'entered targets':'analysts'}.`);
+  analystPlot(analystData);
+  set('stateNote',xs.length?'The 10th, 30th, 50th, 70th and 90th percentiles of entered targets. Weights are classroom assumptions.':'Illustrative prices anchored to the published low, median and high, with two interpolated states. Weights are classroom assumptions.');
+  byId('stateRows').innerHTML=states.map((name,i)=>`<tr><th scope="row"><span class="state" style="background:${stateColors[i]}">${name}</span></th><td>${quote(prices[i])}</td><td>${pct(weights[i])}</td><td>${quote(values[i])}</td></tr>`).join('');
+  set('payoffSummary',!valid?'Enter valid option inputs.':!aligned?'Set days to expiry to 365 to align with the 12-month analyst targets and calculate the discounted payoff.':`${pct(zero)} of the scenario weight produces zero payoff. The discounted belief-weighted payoff is ${quote(belief)}.`);
+  if(valid)payoffPlot(prices,a);else byId('payoffChart').innerHTML='';
+  const call=valid?lattice(a,200,'call'):{value:NaN,p:NaN},put=valid?lattice(a,200,'put'):{value:NaN,p:NaN};
+  const crr=a.type==='call'?call.value:put.value;
+  const fine=valid?lattice(a,400).value:NaN;
+  const bid=num('bid'),ask=num('ask'),mid=bid>=0&&ask>=bid?(bid+ask)/2:NaN;
+  const sd=spot*Math.exp(-a.yield*t),kd=a.strike*Math.exp(-a.rate*t), gap=sd-kd;
+  const lower=Math.max(0,a.type==='call'?gap:-gap),upper=a.type==='call'?sd:kd;
+  const delta=Math.abs(crr-fine);
+  const checks=[
+    ['Theoretical bounds',crr>=lower-1e-8&&crr<=upper+1e-8,`Range ${quote(lower)}–${quote(upper)}`],
+    ['Put-call parity',Math.abs(call.value-put.value-gap)<1e-6,`Absolute difference ${quote(Math.abs(call.value-put.value-gap))}`],
+    ['Risk-neutral probability',call.p>=0&&call.p<=1,Number.isFinite(call.p)?pct(call.p):'Unavailable'],
+    ['Lattice convergence',delta<=.10,`200 vs. 400 steps · difference ${quote(delta)} · tolerance $0.10`]
+  ];
+  byId('checks').innerHTML=checks.map(([label,pass,note])=>`<div class="validation"><strong>${pass?'✓':'⚠'} ${label}</strong><br><small>${note}</small></div>`).join('');
+  cards('priceCards',[['Belief-weighted payoff',belief,'Subjective discounted expected payoff',colors[2]],['CRR value',crr,'No-arbitrage lattice value',colors[1]],['Market midpoint',mid,Number.isFinite(mid)?`Bid ${quote(bid)} · Ask ${quote(ask)}`:'Enter observed bid and ask',colors[3]]]);
+  bars('priceChart',[['Belief-weighted payoff',belief,colors[2]],['CRR lattice value',crr,colors[1]],['Market midpoint',mid,colors[3]]]);
+  set('memoEquity',`AAPL spot ${quote(spot)}, DCF ${quote(dcf)}, comparables ${quote(comp)}, analyst median ${quote(median)}.`);
+  set('memoAnalyst',byId('targetSummary').textContent);
+  set('memoPrice',`Belief payoff ${quote(belief)}, CRR ${quote(crr)}, bid ${quote(bid)}, midpoint ${quote(mid)}, ask ${quote(ask)}.`);
+}
+const checklist=['Inputs completed','Sources documented','Model executed','Validation passed','Memo drafted','Reversal condition stated','Repository URL ready','Pages URL ready'];
+byId('checklist').innerHTML=checklist.map((item,i)=>`<label class="check"><input type="checkbox" id="check${i}">${item}</label>`).join('');
+checklist.forEach((_,i)=>{
+  const input=byId('check'+i),key='apple-lab-check-'+i;
+  try{input.checked=localStorage.getItem(key)==='true';}catch{}
+  input.addEventListener('change',()=>{try{localStorage.setItem(key,String(input.checked));}catch{}});
+});
+byId('copy').addEventListener('click',async()=>{
+  const memo=['AAPL · FIN 450 · Case 4',...['memoEquity','memoAnalyst','memoPrice'].map(id=>byId(id).textContent)].join('\n');
+  try{await navigator.clipboard.writeText(memo);set('copyStatus','Copied evidence summary.');}
+  catch{const field=byId('copyFallback');field.hidden=false;field.value=memo;field.select();set('copyStatus','Select and copy the evidence summary below.');}
+});
+for(const id of ['dcf','comp','targets','bid','ask'])byId(id).addEventListener('input',render);
 render();
 </script></body></html>
