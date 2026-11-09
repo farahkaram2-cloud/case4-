@@ -1,0 +1,13 @@
+APPLE OPTION PRICER | FIN 450 CASE 4
+
+1. Unzip this package. Open index.html locally to preview.
+2. In your case4- GitHub repository, check Settings > Pages for the branch and folder that publish the site.
+3. If Pages deploys from a branch, put index.html directly in the selected folder (/ or /docs).
+   If an index.html already exists there, edit that file and paste in the full contents of this index.html.
+   Commit the change. For a new file, use Add file > Upload files.
+4. In Actions, wait for the Pages deployment to succeed, then refresh your live site.
+   If the site uses a custom GitHub Actions build, the workflow must publish this index.html in its output.
+   This standalone site needs no build, server, or API key.
+
+To verify the example, click Load Slide 12 SPY. The page should show +$4,380.00 and
+an adjustment to sell or short 60 shares. Use AAPL model returns to the Apple scenario.
