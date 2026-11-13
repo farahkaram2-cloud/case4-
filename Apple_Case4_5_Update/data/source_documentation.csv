@@ -1,0 +1,13 @@
+input,source,date,method_note
+spot,https://www.obelion.net/options/AAPL/options-chain?exp=1807909200,2026-11-11,Underlying snapshot 14:30 ET; $355.00.
+option_contract,https://www.obelion.net/options/AAPL/options-chain?exp=1807909200,2026-11-11,"AAPL Apr 16 2027 $355 call; 156 calendar days / 365; volume 35, open interest 1,409."
+exercise_style_multiplier,https://www.theocc.com/clearance-and-settlement/clearing/equity-options-product-specifications,2026-11-11,"Standard American equity call, 100 shares."
+market_bid_ask,https://www.obelion.net/options/AAPL/options-chain?exp=1807909200,2026-11-11,"Same 14:30 ET chain snapshot; bid $26.70, ask $27.30."
+volatility,https://www.obelion.net/options/AAPL/options-chain?exp=1807909200,2026-11-11,Quoted 25.7% IV for selected call; vendor methodology unavailable.
+risk_free_rate,https://theovernightrate.com/rates/treasury-yields/,2026-11-10,Prior session six-month U.S. Treasury par yield 4.38%; used directly as a continuous-rate proxy.
+dividend_yield,https://www.marketbeat.com/stocks/NASDAQ/AAPL/Dividend/,2026-11-02,$0.27 quarterly dividend annualized as $1.08 divided by $355; continuous approximation.
+dcf_value,Prior student Apple DCF submission,2026-10-19,Reported $97.20 per share; date is submission date. Verify underlying workbook valuation date and diluted share basis.
+comps_value,https://stockanalysis.com/stocks/msft/ ; https://stockanalysis.com/stocks/googl/ ; https://stockanalysis.com/stocks/meta/ ; https://stockanalysis.com/stocks/aapl/,2026-11-11,"Broad technology peer proxy: median trailing P/E of 27.23, 15.40, and 21.67 multiplied by Apple trailing EPS $8.98. Same-day intraday snapshots are not synchronized."
+analyst_targets,https://stockanalysis.com/stocks/aapl/ratings/,2026-11-11,Five individual firms published Nov 3–6. Twelve-month horizon assumed from provider convention; original report horizons unverified. Small sample.
+analyst_horizon,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,2026-11-11,Provider describes 12-month price targets. Individual rows do not independently certify the stated horizon.
+lattice_steps,Classroom model specification,2026-11-11,"200-step primary CRR; check 25, 50, 100, 200 and 500 steps."

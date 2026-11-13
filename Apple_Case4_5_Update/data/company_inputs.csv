@@ -1,0 +1,2 @@
+company,ticker,valuation_date,spot,strike,maturity_years,risk_free_rate,dividend_yield,volatility,volatility_type,option_type,exercise_style,lattice_steps,market_bid,market_ask,dcf_value,comps_value,expiration,contract_multiplier,quote_time_et,volume,open_interest
+Apple Inc.,AAPL,2026-11-11,355,355,0.4273972602739726,0.0438,0.0030422535211267606,0.257,implied,call,american,200,26.7,27.3,97.2,194.6,2027-04-16,100,14:30,35,1409

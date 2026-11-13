@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AAPL | Valuation-to-Option Pricing Lab</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eaf1f6;color:#112b46;font:16px/1.5 Arial,sans-serif}header{padding:28px 4%;background:linear-gradient(100deg,#0c2947,#17476a);border-bottom:4px solid #169b91;color:white}header strong{color:#ffd177;letter-spacing:.1em;font-size:.85em}h1{font-size:clamp(2rem,4vw,3rem);margin:.1em 0}h2,h3{margin:0 0 .5em}header p{margin:.3em 0;color:#e1edf8}main{max-width:1500px;margin:auto;padding:24px 4%}section{background:white;border:1px solid #ccdae8;border-radius:15px;padding:20px;margin-bottom:16px;box-shadow:0 8px 25px #123a5810}nav,.cards{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 16px}button{border:1px solid #bed0e0;border-radius:24px;background:white;color:#12314d;padding:9px 14px;cursor:pointer;font:inherit}button[aria-selected=true]{background:#102e4b;color:white}.card{flex:1 1 180px;padding:12px 16px;background:#f0f7fa;border-top:3px solid #108d81;border-radius:10px}.card b{display:block;font-size:1.5rem}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.chart{min-height:330px}.table{overflow:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px;border-bottom:1px solid #dce6ee;white-space:nowrap}small{color:#496078}.note{padding:10px 13px;border-radius:8px;background:#fff1d6;color:#69470c}a{color:#00756a}@media(max-width:750px){.grid{grid-template-columns:1fr}section{padding:12px}}
+</style>
+<header><strong>FIN 450 · MODULES 4 AND 5</strong><h1>Valuation-to-Option Pricing Lab</h1><p id="contract">Loading notebook results…</p></header>
+<main><section><h2>Start here</h2><p>Compare Apple’s equity valuation, analyst-weighted payoff, and risk-neutral lattice value. Then use the Greeks to explain how the option responds to changing inputs.</p><div class="note" id="horizon"></div></section>
+<nav id="tabs" aria-label="Lab sections"></nav>
+<section id="equity"><h2>Equity beliefs</h2><div class="cards" id="equityCards"></div><div class="chart" id="equityChart"></div></section>
+<section id="analysts" hidden><h2>Analyst evidence</h2><p id="stats"></p><div class="chart" id="targetChart"></div><p><small>Individual analyst targets are valuation opinions. Their 12-month horizon is a documented assumption.</small></p></section>
+<section id="scenarios" hidden><h2>Scenario payoff</h2><p id="decomposition"></p><div class="table" id="states"></div><div class="chart" id="payoff"></div></section>
+<section id="pricing" hidden><h2>Pricing comparison</h2><div class="cards" id="prices"></div><p id="lattice"></p><div class="table" id="convergence"></div><p id="checks"></p></section>
+<section id="risk" hidden><h2>Greeks and risk</h2><div class="cards" id="greekCards"></div><p>European Black–Scholes–Merton Greeks at the American lattice inputs. Each chart marks spot and strike. When they coincide, one line marks both.</p><div class="grid"><div id="delta" class="chart"></div><div id="gamma" class="chart"></div><div id="vega" class="chart"></div><div id="theta" class="chart"></div></div><h3>Finite-difference validation</h3><div class="table" id="finite"></div><h3>Full repricing and approximation errors</h3><div class="table" id="repricing"></div></section>
+<section id="submit" hidden><h2>Interpret and submit</h2><p>Review the integrated decision memo and its evidence in the executed notebook. Use the source documentation to verify the quote, peer valuation, and assumptions.</p><a href="https://github.com/farahkaram2-cloud/case4-">Open repository files</a></section>
+<p id="error" role="alert"></p></main>
+<script>
+'use strict';
+const get=id=>document.getElementById(id);
+const fmt=(n,d=4)=>Number(n).toLocaleString('en-US',{maximumFractionDigits:d});
+const usd=n=>Number(n).toLocaleString('en-US',{style:'currency',currency:'USD'});
+const pct=n=>fmt(100*n,2)+'%';
+const cell=v=>typeof v==='number'?fmt(v,8):String(v);
+const configs=[
+ ['equity','Equity beliefs'],['analysts','Analyst evidence'],['scenarios','Scenario payoff'],
+ ['pricing','Pricing comparison'],['risk','Greeks and risk'],['submit','Interpret and submit']
+];
+const chartIds={equity:['equityChart'],analysts:['targetChart'],scenarios:['payoff'],risk:['delta','gamma','vega','theta']};
+function cards(id,items){
+ for(const [label,value] of items){
+  const node=document.createElement('div');node.className='card';node.append(label);
+  const strong=document.createElement('b');strong.textContent=value;node.append(strong);get(id).append(node);
+ }
+}
+function table(id,rows){
+ const node=document.createElement('table'), keys=Object.keys(rows[0]);
+ const head=node.createTHead().insertRow();
+ for(const key of keys){const th=document.createElement('th');th.scope='col';th.textContent=key;head.append(th);}
+ const body=node.createTBody();
+ for(const row of rows){const tr=body.insertRow();for(const key of keys)tr.insertCell().textContent=cell(row[key]);}
+ get(id).append(node);
+}
+function chart(id,traces,layout){
+ return Plotly.newPlot(id,traces,{margin:{t:54,r:18,b:56,l:66},font:{color:'#112b46'},...layout},{responsive:true,displaylogo:false});
+}
+async function init(){
+ const response=await fetch('./model_results.json',{cache:'no-cache'});
+ if(!response.ok)throw Error('The workflow must generate model_results.json beside this page.');
+ const d=await response.json(),m=d.model;
+ if(m.ticker!=='AAPL'||!d.greeks)throw Error('This deployment still has the original model JSON. Check that the updated notebook executed.');
+ get('contract').textContent=m.company+' · '+m.ticker+' · '+m.valuation_date+' '+m.quote_time_et+' ET · '+usd(m.strike)+' American call · Expires '+m.expiration;
+ get('horizon').textContent='Option maturity '+fmt(m.maturity_years*12,2)+' months · Analyst horizon '+d.analyst_horizon_months+' months (assumed). The scenario payoff comparison has a horizon mismatch.';
+ cards('equityCards',Object.entries(d.valuation).map(([name,value])=>[name,usd(value)]));
+ const stats=d.analyst_stats;
+ get('stats').textContent=stats.count+' observations · Mean '+usd(stats.mean)+' · Median '+usd(stats.median)+' · Standard deviation '+usd(stats.std)+' · Range '+usd(stats.min)+' to '+usd(stats.max);
+ const b=d.belief_decomposition;
+ get('decomposition').textContent='Zero payoff weight '+pct(b.weight_zero_payoff)+' · Positive payoff weight '+pct(b.weight_positive_payoff)+' · Weighted terminal payoff '+usd(b.weighted_terminal_payoff)+' · Discount factor '+fmt(b.discount_factor)+' · Discounted value '+usd(d.valuation_weighted_expected_payoff);
+ table('states',d.states);
+ cards('prices',Object.entries(d.comparison).map(([name,value])=>[name,usd(value)]).concat([['Market bid',usd(m.market_bid)],['Market ask',usd(m.market_ask)]]));
+ get('lattice').textContent='u '+fmt(d.lattice.u,6)+' · d '+fmt(d.lattice.d,6)+' · p* '+fmt(d.lattice.p_star,6)+' · '+m.lattice_steps+' steps · IV '+pct(m.volatility)+' · Continuous dividend yield '+pct(m.dividend_yield)+' · American exercise premium '+usd(d.early_exercise_premium);
+ get('checks').textContent='Original checks passed for probability, applicable benchmark bounds, European put–call parity, and convergence. See the notebook for separate American exercise and Greek checks.';
+ table('convergence',d.selected_style_convergence);
+ cards('greekCards',d.greeks.map(g=>[g.Greek+' · '+g.Units,fmt(g.Analytic,6)]));
+ table('finite',d.greeks);table('repricing',d.repricing);
+ if(!window.Plotly)throw Error('Plotly could not load. The notebook results and tables are still available.');
+ const label=(text,x,color)=>({x,y:1,yref:'paper',text,showarrow:false,yshift:8,font:{color}});
+ const marker=(x,color,dash)=>({type:'line',xref:'x',yref:'paper',x0:x,x1:x,y0:0,y1:1,line:{color,dash,width:2}});
+ const levels=m.spot===m.strike?[[m.spot,'Spot = strike','#b56e08','dot']]:[[m.spot,'Spot','#b56e08','dot'],[m.strike,'Strike','#187a9f','dash']];
+ const draw={
+  equity:()=>chart('equityChart',[{type:'bar',x:Object.keys(d.valuation),y:Object.values(d.valuation),marker:{color:['#617487','#c48b21','#187a9f','#108d81']},hovertemplate:'%{x}<br>$%{y:.2f}<extra></extra>'}],{yaxis:{title:'Equity value per share ($)'}}),
+  analysts:()=>chart('targetChart',[{type:'box',x:d.analyst_targets,boxpoints:'all',jitter:.35,marker:{color:'#108d81'},hovertemplate:'$%{x:.2f}<extra></extra>'}],{xaxis:{title:'Published Apple price target ($)'},showlegend:false}),
+  scenarios:()=>chart('payoff',[{x:[Math.min(...d.analyst_targets)*.9,m.strike,Math.max(...d.analyst_targets,m.strike)*1.1],y:[0,0,Math.max(...d.analyst_targets,m.strike)*1.1-m.strike],name:'Call payoff',line:{color:'#108d81'}},{x:d.states.map(s=>s.terminal_price),y:d.states.map(s=>s.option_payoff),text:d.states.map(s=>s.state),mode:'markers',name:'Analyst states'}],{xaxis:{title:'Stock price at expiration ($)'},yaxis:{title:'Option payoff per share ($)'}}),
+  risk:()=>Promise.all(d.greeks.slice(0,4).map(g=>chart(g.Greek,[{x:d.greek_curves.map(p=>p.spot),y:d.greek_curves.map(p=>p[g.Greek]),line:{color:'#108d81'},hovertemplate:'AAPL $%{x:.2f}<br>%{y:.6f}<extra></extra>'}],{title:g.Greek[0].toUpperCase()+g.Greek.slice(1),xaxis:{title:'AAPL stock price ($)'},yaxis:{title:g.Units,automargin:true},shapes:levels.map(([x,,color,dash])=>marker(x,color,dash)),annotations:levels.map(([x,title,color])=>label(title,x,color))})))
+ };
+ const rendered=new Set();
+ function show(active){
+  for(const [id] of configs){get(id).hidden=id!==active;get('tab-'+id).setAttribute('aria-selected',String(id===active));}
+  if(draw[active]&&!rendered.has(active)){rendered.add(active);draw[active]();}
+  else for(const id of chartIds[active]||[])Plotly.Plots.resize(get(id));
+ }
+ for(const [id,label] of configs){
+  const button=document.createElement('button');button.id='tab-'+id;button.type='button';button.textContent=label;
+  button.addEventListener('click',()=>show(id));get('tabs').append(button);
+ }
+ show('equity');
+}
+init().catch(e=>{get('error').textContent=e.message;});
+</script>
+</html>

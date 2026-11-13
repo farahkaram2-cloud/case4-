@@ -1,0 +1,15 @@
+APPLE CASE 4 AND 5
+Unzip and open the extracted Apple_Case4_5_Update folder.
+In your case4- repository, go to Code > Add file > Upload files on main.
+Drag these items together from inside the extracted folder:
+  data, docs, model_history, valuation_option_lab.ipynb, CASE4-5-CHANGELOG.md
+Commit as one change. The existing workflow should run the notebook and publish docs.
+Confirm Actions succeeds and the live page shows Apple Inc. and the Greeks and risk tab.
+Upload at the repository root so docs/index.html replaces docs/index.html.
+The older root index.html is not part of this upload.
+The dashboard uses the Plotly CDN and loads docs/model_results.json over HTTP.
+For local preview run python -m http.server 8000 in the extracted folder and open http://localhost:8000/docs/.
+Before Canvas submission verify the original DCF valuation date, the individual analyst horizons,
+and the memo and AI-use disclosure. A documented broad-tech P/E proxy is used for comparables.
+Repository https://github.com/farahkaram2-cloud/case4-
+Dashboard https://farahkaram2-cloud.github.io/case4-/
