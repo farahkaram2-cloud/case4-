@@ -1,0 +1,21 @@
+input_name,input_value,observation_date,source,method_note
+spot,350.69,2026-11-09,https://investor.apple.com/stock-price/default.aspx,"Historical closing price, not live quote"
+strike,350.0,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,AAPL 261111C00350000 chain snapshot
+expiration,2026-11-11,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,AAPL 261111C00350000 chain snapshot
+market_bid,3.0,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,AAPL 261111C00350000 chain snapshot
+market_ask,3.25,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,AAPL 261111C00350000 chain snapshot
+volume,12388,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,AAPL 261111C00350000 chain snapshot
+open_interest,1374,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,AAPL 261111C00350000 chain snapshot
+volatility,0.248,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,0.248 chain-level implied volatility; NOT contract-specific IV
+risk_free_rate,0.04,2026-11-09,NOT VERIFIED,Illustrative 4% continuously compounded rate; requires matched Treasury/OIS evidence
+dividend_yield,0.0031,2026-11-09,https://finance.yahoo.com/quote/AAPL/history/,Estimated 0.27 quarterly dividend annualized / spot; ex-dividend 2026-11-12 AFTER selected expiration
+dcf_value,97.2,2026-10-19,PRIOR STUDENT DCF,Earlier estimate $97.20; valuation-date bridge and diluted-share reconciliation not supplied
+comps_value,,2026-11-09,NOT PROVIDED,No verified comparable value available; do not invent
+analyst_Erik Woodring,350,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_Samik Chatterjee,355,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_Krish Sankar,390,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_Tim Long,261,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_David Vogt,340,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_Jim Kelleher,400,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_William Power,340,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_Helena Wang,310,2026-11-06,https://www.google.com/finance/quote/AAPL:NASDAQ,Target horizon treated as 12-month convention; original reports not reviewed

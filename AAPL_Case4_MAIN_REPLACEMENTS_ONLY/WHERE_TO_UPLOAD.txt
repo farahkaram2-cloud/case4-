@@ -1,0 +1,13 @@
+UPLOAD ONLY TO EXISTING case4- REPOSITORY ROOT.
+
+Extract this ZIP locally. Upload the contents of each subfolder to the matching EXISTING GitHub folder:
+ docs/index.html and docs/aapl_greeks_results.json -> case4-/docs/
+ data/*.csv -> case4-/data/
+ scripts/*.py -> case4-/scripts/
+ aapl_module5_greeks.ipynb and README.md -> case4-/ (root)
+
+Do not upload the enclosing AAPL_Case4_MAIN_REPLACEMENTS_ONLY folder. Do not upload the ZIP as a file. Do not delete the original valuation_option_lab.ipynb or instructor rubric.
+
+IMPORTANT: The classroom assignment says to protect docs/index.html. Replacing it may violate that instruction. Ask your instructor whether the updated Apple dashboard can replace the existing one. This package changes the dashboard to an Apple-specific version; it does not preserve the existing 4.4 MB interactive design exactly.
+
+UNRESOLVED: Student DCF date/value not reconciled; rate illustrative; contract IV not verified; analyst horizon mismatch; see README. Not certified submission-ready.
