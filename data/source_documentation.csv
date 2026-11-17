@@ -1,9 +1,17 @@
 input_name,value,observation_date,source,method_or_note
-Spot price,96,2026-10-16,Synthetic,Closing price
-Risk-free rate,0.045,2026-10-16,Synthetic,Matched maturity
-Dividend yield,0.012,2026-10-16,Synthetic,Continuous yield
-Volatility,0.28,2026-10-16,Synthetic,Implied volatility
-Option bid,8.10,2026-10-16,Synthetic,Selected contract
-Option ask,8.60,2026-10-16,Synthetic,Selected contract
-DCF value,106,2026-10-16,Student model,Per diluted share
-Comparable value,101,2026-10-16,Student model,Per diluted share
+Company,Apple Inc.,2026-11-09,Student case,Apple Inc. ticker AAPL
+Spot price,225,2026-11-09,Earlier Apple valuation case,Historical reference used in prior assignment; not verified closing price for this date
+Strike price,230,2026-11-09,Illustrative assumption,Example call strike; actual listed contract not verified
+Time to maturity,1.0,2026-11-09,Illustrative assumption,One year assumed; expiration date not verified
+Risk-free rate,0.045,2026-11-09,Illustrative assumption,Annual continuously compounded rate of 4.5 percent
+Dividend yield,0.005,2026-11-09,Illustrative assumption,Annual continuous dividend yield of 0.5 percent
+Volatility,0.28,2026-11-09,Illustrative assumption,Annual volatility of 28 percent; not verified implied volatility
+Option type,call,2026-11-09,Student case,European call pricing benchmark
+Exercise style,european,2026-11-09,Model assumption,European benchmark; standard listed AAPL equity options are generally American style
+Lattice steps,200,2026-11-09,Student model,CRR binomial pricing lattice
+Option bid,0,2026-11-09,Missing market data,Placeholder only; actual bid unavailable
+Option ask,0,2026-11-09,Missing market data,Placeholder only; actual ask unavailable
+DCF value,97.20,2026-11-09,Earlier student Apple DCF,Previously reported intrinsic value per diluted share; original valuation date must be confirmed
+Comparable value,225,2026-11-09,Placeholder,Not an independently calculated comparable-company valuation
+Analyst targets,190 to 250,2026-11-09,Illustrative scenarios,Five example targets; actual analyst names and sources still required
+Contract multiplier,100,2026-11-09,Standard equity option convention,Typically 100 shares per standard AAPL option contract
