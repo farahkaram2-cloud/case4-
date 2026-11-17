@@ -1,0 +1,12 @@
+APPLE DASHBOARD FIX — TWO EXISTING PATHS
+
+1. Open https://github.com/farahkaram2-cloud/case4- (repository ROOT).
+2. Add file > Upload files. Upload index.html from THIS package ROOT. Commit changes. This replaces the existing root index.html.
+3. Open the existing docs folder in GitHub: https://github.com/farahkaram2-cloud/case4-/tree/main/docs
+4. Add file > Upload files. Upload docs/index.html from THIS package. Commit changes. This replaces the existing docs/index.html.
+5. Wait for Actions > Pages deployment to complete. Hard-refresh the live page (Mac: Command+Shift+R), or open in private window.
+6. Check that header says Apple Valuation & Option Risk Lab and shows AAPL, not Asteron.
+
+Do not drag the enclosing folder or upload ZIP into GitHub. Do not delete notebooks, data, scripts, or workflows.
+
+DATA CAUTION: This HTML is the earlier supplied Apple teaching model, not verified current market data. It uses historical 2026-11-09 stock $350.69, strike $350, Nov 11 expiration, 4% assumed rate, 24.8% proxy volatility, $3.00/$3.25 supplied quote, and old $97.20 DCF with unreconciled date. Do not present these as fully independently verified or current.
