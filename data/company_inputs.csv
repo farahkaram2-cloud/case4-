@@ -1,2 +1,2 @@
-company,ticker,valuation_date,spot,strike,maturity_years,risk_free_rate,dividend_yield,volatility,volatility_type,option_type,exercise_style,lattice_steps,market_bid,market_ask,dcf_value,comps_value
-Apple Inc.,AAPL,2026-11-09,225,230,1.0,0.045,0.005,0.28,assumed,call,european,200,0,0,97.20,225
+company,ticker,valuation_date,spot,strike,maturity_years,risk_free_rate,dividend_yield,volatility,volatility_type,option_type,exercise_style,lattice_steps,market_bid,market_ask,dcf_value,comps_value,contract_multiplier,expiration,quote_date,volume,open_interest,rate_method,dividend_method,dcf_method
+Apple Inc.,AAPL,2026-11-09,350.69,350.0,0.005479452054794521,0.04,0.0031,0.248,expiration_ATM_proxy_not_contract_IV,call,american,200,3.0,3.25,97.2,,100,2026-11-11,2026-11-09,12388,1374,illustrative_4pct_not_verified,estimated_from_annualized_dividend,prior_student_DCF_not_reconciled_to_2026-11-09

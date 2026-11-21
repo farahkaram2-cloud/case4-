@@ -1,17 +1,21 @@
-input_name,value,observation_date,source,method_or_note
-Company,Apple Inc.,2026-11-09,Student case,Apple Inc. ticker AAPL
-Spot price,225,2026-11-09,Earlier Apple valuation case,Historical reference used in prior assignment; not verified closing price for this date
-Strike price,230,2026-11-09,Illustrative assumption,Example call strike; actual listed contract not verified
-Time to maturity,1.0,2026-11-09,Illustrative assumption,One year assumed; expiration date not verified
-Risk-free rate,0.045,2026-11-09,Illustrative assumption,Annual continuously compounded rate of 4.5 percent
-Dividend yield,0.005,2026-11-09,Illustrative assumption,Annual continuous dividend yield of 0.5 percent
-Volatility,0.28,2026-11-09,Illustrative assumption,Annual volatility of 28 percent; not verified implied volatility
-Option type,call,2026-11-09,Student case,European call pricing benchmark
-Exercise style,european,2026-11-09,Model assumption,European benchmark; standard listed AAPL equity options are generally American style
-Lattice steps,200,2026-11-09,Student model,CRR binomial pricing lattice
-Option bid,0,2026-11-09,Missing market data,Placeholder only; actual bid unavailable
-Option ask,0,2026-11-09,Missing market data,Placeholder only; actual ask unavailable
-DCF value,97.20,2026-11-09,Earlier student Apple DCF,Previously reported intrinsic value per diluted share; original valuation date must be confirmed
-Comparable value,225,2026-11-09,Placeholder,Not an independently calculated comparable-company valuation
-Analyst targets,190 to 250,2026-11-09,Illustrative scenarios,Five example targets; actual analyst names and sources still required
-Contract multiplier,100,2026-11-09,Standard equity option convention,Typically 100 shares per standard AAPL option contract
+input_name,input_value,observation_date,source,method_note
+spot,350.69,2026-11-09,https://investor.apple.com/stock-price/default.aspx,"Historical closing price, not live quote"
+strike,350.0,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,AAPL 261111C00350000 chain snapshot
+expiration,2026-11-11,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,AAPL 261111C00350000 chain snapshot
+market_bid,3.0,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,AAPL 261111C00350000 chain snapshot
+market_ask,3.25,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,AAPL 261111C00350000 chain snapshot
+volume,12388,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,AAPL 261111C00350000 chain snapshot
+open_interest,1374,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,AAPL 261111C00350000 chain snapshot
+volatility,0.248,2026-11-09,https://www.optionistics.com/quotes/stock-option-chains/AAPL?date=2026-11-09&expirations=0&expiry=2026-11-11&greeks=0&nonstd=-1&putcall=all&range=ntm,0.248 chain-level implied volatility; NOT contract-specific IV
+risk_free_rate,0.04,2026-11-09,NOT VERIFIED,Illustrative 4% continuously compounded rate; requires matched Treasury/OIS evidence
+dividend_yield,0.0031,2026-11-09,https://finance.yahoo.com/quote/AAPL/history/,Estimated 0.27 quarterly dividend annualized / spot; ex-dividend 2026-11-12 AFTER selected expiration
+dcf_value,97.2,2026-10-19,PRIOR STUDENT DCF,Earlier estimate $97.20; valuation-date bridge and diluted-share reconciliation not supplied
+comps_value,,2026-11-09,NOT PROVIDED,No verified comparable value available; do not invent
+analyst_Erik Woodring,350,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_Samik Chatterjee,355,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_Krish Sankar,390,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_Tim Long,261,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_David Vogt,340,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_Jim Kelleher,400,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_William Power,340,2026-11-03,https://www.marketbeat.com/stocks/NASDAQ/AAPL/forecast/,Target horizon treated as 12-month convention; original reports not reviewed
+analyst_Helena Wang,310,2026-11-06,https://www.google.com/finance/quote/AAPL:NASDAQ,Target horizon treated as 12-month convention; original reports not reviewed
