@@ -1,0 +1,9 @@
+analyst,firm,target,publication_date,horizon_months,source_name,horizon_note
+Erik Woodring,Morgan Stanley,350,2026-11-03,12,MarketBeat historical rating table,12-month convention assumed; verify original report
+Samik Chatterjee,JPMorgan,355,2026-11-03,12,MarketBeat historical rating table,12-month convention assumed; verify original report
+Krish Sankar,TD Cowen,390,2026-11-03,12,MarketBeat historical rating table,12-month convention assumed; verify original report
+Tim Long,Barclays,261,2026-11-03,12,MarketBeat historical rating table,12-month convention assumed; verify original report
+David Vogt,UBS,340,2026-11-03,12,MarketBeat historical rating table,12-month convention assumed; verify original report
+Jim Kelleher,Argus,400,2026-11-03,12,MarketBeat historical rating table,12-month convention assumed; verify original report
+William Power,Baird,340,2026-11-03,12,MarketBeat historical rating table,12-month convention assumed; verify original report
+Helena Wang,Phillip Securities,310,2026-11-06,12,Google Finance analyst rating table,12-month convention assumed; verify original report

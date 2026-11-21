@@ -1,0 +1,1 @@
+Upload contents of docs/ to existing GitHub docs/ folder; upload contents of data/ to existing GitHub data/ folder. Do not upload the enclosing folder. GitHub Pages source must be main/docs for docs/index.html to display. If site is built via Actions from root index.html, update root index.html too. Historical quotes and analyst sources require independent verification.
